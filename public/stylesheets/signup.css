@@ -1,0 +1,17 @@
+body {
+    padding-top: 30px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.container {
+    display: flex !important;
+}
+
+.a {
+    width: 870px;
+    margin-left: 12%;
+    font-size: x-large;
+}

@@ -1,0 +1,57 @@
+<% include partials/head.html %>
+
+<body>
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="text-center">
+            <h1 class=" fa fa-user">Chat</h1><br>
+            <span><strong>Unick</strong>: <%= user._id ? user._id : '' %></span><br>
+            <input id="uid" type="hidden" value="<%= user._id ? user._id : '' %>" />
+            <span class="fa fa-sign-out"><a href="/"> Sign out</a></span>
+            <hr>
+            <div class="jumbotron">
+                <!-- message form -->
+                <form name="publish">
+                    <input type="text" name="seluid">
+                    <input type="text" name="message">
+                    <input type="submit" value="Send">
+                </form>
+
+                <!-- div with messages -->
+                <div id="messages"></div>
+                <!--<% if (user.local.email != null) { %>
+                <img src="https://avatars.io/gravatar/<%= user.local.email %>/140" class="img-circle"><br>
+                <strong>email</strong>: <%= user.local.email %><br>
+                <% } %>-->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var xx = document.getElementById('uid').value;
+        let socket = new WebSocket("ws://localhost:9030/?usid=" + xx);
+        var mto = {
+            tid: { usid: '' },
+            text: ''
+        };
+
+        // send message from the form
+        document.forms.publish.onsubmit = function () {
+            let outgoingMessage = this.message.value;
+            mto.tid.usid = this.seluid.value;
+            mto.text = outgoingMessage;
+            console.log(outgoingMessage);
+            socket.send(JSON.stringify(mto));
+            return false;
+        };
+
+        // message received - show the message in div#messages
+        socket.onmessage = function (event) {
+            let message = event.data;
+            //mto.tid = event.data + '';
+            console.log(message);
+            let messageElem = document.createElement('div');
+            messageElem.textContent = message;
+            document.getElementById('messages').prepend(messageElem);
+        }
+    </script>
+</body>
+</html>

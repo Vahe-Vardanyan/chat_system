@@ -1,0 +1,71 @@
+<% include partials/head.html %>
+
+    <head>
+        <link rel="stylesheet" href="../../stylesheets/profile.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <body>
+
+        <div  class="container profil">
+            <div class="row ">
+                <div class=" col-lg-3 col-sm-6">
+
+                    <div class="card hovercard">
+                        <div class="cardheader">
+
+                        </div>
+                        <div class="avatar">
+                            <img id="imgFileUpload" alt="Select File" src="./imgdata/<%= ppath %> " title="Select File" style="cursor: pointer" >
+                        </div>
+                        
+
+                        <div>
+                            <form id="frmUploader" enctype="multipart/form-data" action="users/upload/" method="post">
+                                <input type="file" id="FileUpload1" name="imgUploader" style="display: none" multiple />
+                                <input type="submit" name="submit" id="btnSubmit" value="Upload" />
+                                
+                            </form>
+                        </div>
+
+
+
+
+                        <div class="info">
+                            <div class="title ">
+                                <h1 class="list-group-item ">
+                                    <%= user.local.name %>
+                                    <%= user.local.lastname %>
+                                </h1>
+                            </div>
+                            <div class="desc">
+                                <!-- <span class="colors"><strong >user id</strong> : <%= user._id ? user._id : '' %></span><br> -->
+                                <span>
+                                    <a class="list-group-item" href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+                                    <a class="list-group-item" href="./users/chatroom"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp; Message</a>
+                                    <a class="list-group-item" href="/"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp; Sign out</a>
+                               </span>
+                            </div>
+                        </div>
+
+                    </div>
+                
+            
+                    
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            var fileupload = document.getElementById("FileUpload1");
+                            var filePath = document.getElementById("spnFilePath");
+                            var image = document.getElementById("imgFileUpload");
+                            image.onclick = function () {
+                                fileupload.click();
+                            };
+                            fileupload.onchange = function () {
+                                var fileName = fileupload.value.split('\\')[fileupload.value.split('\\').length - 1];
+                                filePath.innerHTML = "<b>Selected File: </b>" + fileName;
+                            };
+                        };
+                    </script>
+</body>
+
+</html>

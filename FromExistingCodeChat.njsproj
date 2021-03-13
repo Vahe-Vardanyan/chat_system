@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{26009278-2f88-4952-9217-0df1c6a449ce}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>app.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">16.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <StartWebBrowser>True</StartWebBrowser>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="models\friendlist.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\groupmsg.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\proflastpic.js" />
+    <Content Include="models\usergroup.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="app.js" />
+    <Content Include="msging.js" />
+    <Content Include="config\auth.js" />
+    <Content Include="config\database.js" />
+    <Content Include="config\passport.js" />
+    <Content Include="models\msgpair.js" />
+    <Content Include="models\user.js" />
+    <Content Include="routes\index.js" />
+    <Content Include="routes\rchat.js" />
+    <Content Include="routes\users.js" />
+    <Content Include="views\chatroom.html" />
+    <Content Include="views\error.html" />
+    <Content Include="views\index.html" />
+    <Content Include="views\msgviewer.html" />
+    <Content Include="views\mspage.html" />
+    <Content Include="views\profile.html" />
+    <Content Include="views\signup.html" />
+    <Content Include="views\welcomechat.html" />
+    <Content Include="public\customjss\msgview.js" />
+    <Content Include="public\regjs\chatusers.js" />
+    <Content Include="public\stylesheets\chatroom.css" />
+    <Content Include="public\stylesheets\figure.css" />
+    <Content Include="public\stylesheets\login.css" />
+    <Content Include="public\stylesheets\msgviewer.css" />
+    <Content Include="public\stylesheets\profile.css" />
+    <Content Include="public\stylesheets\signup.css" />
+    <Content Include="public\stylesheets\style.css" />
+    <Content Include="public\imgdata\600d6375b35f5809a48de093\imgUploader_1612031457508_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\600d6375b35f5809a48de093\imgUploader_1612084357546_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\600d6375b35f5809a48de093\imgUploader_1611498642682_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\600d6375b35f5809a48de093\imgUploader_1612031814036_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\600d63b0b35f5809a48de094\imgUploader_1612083872443_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601674e9e3ff2b24485ced32\imgUploader_1612085231442_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\60167a0b1095fe2504cc9330\imgUploader_1612085787601_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612087666538_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612088049208_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612092682884_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612092780365_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612092858488_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612087253934_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612087745433_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612087842920_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612088291728_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612088380461_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\60167bfe4031ef055c0842f8\imgUploader_1612092930585_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612093438435_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612093466380_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612093501777_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612093561915_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612093692649_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\601697f8d16ec405c058f165\imgUploader_1612095827159_29261131_1737196649670702_2328603330993291427_n.jpg" />
+    <Content Include="public\imgdata\60169eee214a5e1e6c96cf2d\imgUploader_1612096872477_137514890_912011542669677_67486470745542615_n.jpg" />
+    <Content Include="public\imgdata\602419c82819641544d26d03\imgUploader_1612978840762_135146645_264755568407076_413787809656084871_n.png" />
+    <Content Include="public\imgdata\profimg\prof.png" />
+    <Content Include="views\partials\head.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="config" />
+    <Folder Include="models" />
+    <Folder Include="public" />
+    <Folder Include="public\customjss" />
+    <Folder Include="public\imgdata" />
+    <Folder Include="public\imgdata\600d6375b35f5809a48de093" />
+    <Folder Include="public\imgdata\600d63b0b35f5809a48de094" />
+    <Folder Include="public\imgdata\601674e9e3ff2b24485ced32" />
+    <Folder Include="public\imgdata\60167a0b1095fe2504cc9330" />
+    <Folder Include="public\imgdata\60167bfe4031ef055c0842f8" />
+    <Folder Include="public\imgdata\601697f8d16ec405c058f165" />
+    <Folder Include="public\imgdata\60169eee214a5e1e6c96cf2d" />
+    <Folder Include="public\imgdata\602419c82819641544d26d03" />
+    <Folder Include="public\imgdata\profimg" />
+    <Folder Include="public\regjs" />
+    <Folder Include="public\stylesheets" />
+    <Folder Include="routes" />
+    <Folder Include="views" />
+    <Folder Include="views\partials" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
