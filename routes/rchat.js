@@ -3,10 +3,9 @@ var app=require('../app');
 var router = express.Router();
 var User = require('../models/user');
 var Roomp2p = require('../models/room');
-var Participant = require('../models/participant');
 var upicture = require('../models/proflastpic');
-const { json } = require('body-parser');
-const participant = require('../models/participant');
+const room = require('../models/room');
+// const { json } = require('body-parser');
 //const umap = new Map();
 //
 
@@ -19,6 +18,7 @@ router.post('/roomp2p', isLoggedIn, function (req, res){
     let room=new Roomp2p();
     room.name='';
     room.isGroup=false;
+    room.usersId.push(data.me,data.to);
     room.save(function (err) {
         if (err)
         res.end(JSON.stringify({r:null}));
@@ -26,17 +26,7 @@ router.post('/roomp2p', isLoggedIn, function (req, res){
             let rid={
                 r:room._id
             };
-            let p2p1=new Participant();
-            let p2p2=new Participant();
-            p2p1.userId=data.me;
-            p2p1.roomp2p=p2p2.roomp2p=rid.r;
-            p2p2.userId=data.to;
-            Participant.insertMany([p2p1,p2p2]).then(function(){
-                res.end(JSON.stringify(rid));  // Success 
-            }).catch(function(error){ 
-                res.end(JSON.stringify({r:null}));      // Failure 
-            }); 
-          
+            res.end(JSON.stringify(rid));          
         }
     });
 });

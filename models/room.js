@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var rumSchema = Schema({
-    name: {
-        type: String
-    },
+    usersId: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     isGroup:{
         type:Boolean
     },

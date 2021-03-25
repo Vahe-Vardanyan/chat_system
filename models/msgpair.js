@@ -6,7 +6,7 @@ var upmsgSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Room'
     },
-    whoby: {
+    who: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },

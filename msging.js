@@ -4,7 +4,7 @@ var http = require('http');
 var Msgs = require('./models/msgpair');
 var User = require('./models/user');
 var Room = require('./models/room');
-var Particip = require('./models/participant');
+var Particip = require('./models/room');
 
 //
 module.exports = function (app) {

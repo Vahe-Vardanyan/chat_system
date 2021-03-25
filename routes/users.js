@@ -3,7 +3,7 @@ var fs = require('fs');
 var User = require('../models/user');
 var multer = require('multer');
 var upicture = require('../models/proflastpic');
-var participant = require('../models/participant');
+var room = require('../models/room');
 var router = express.Router();
 
 var dir = './public/imgdata/';
@@ -34,33 +34,32 @@ router.get('/', function (req, res, next) {
 });
 //
 router.get('/chatroom', isLoggedIn, function (req, res, next) {
-    participant.find({ userId: req.user._id }).exec((parterr, rids) => {
-        if (parterr) {
-            next(parterr);
-        } else {
-            let arr=[];
-            participant.find({ userId: {$in:rids.roomp2p},userId:{ $ne: req.user._id } }).select({ userId: 1, _id: 0 }).exec((ferr, fids) => {
-                if (ferr) {
-                    next(ferr);
-                } else {
-                    User.find({ _id: {$in:fids.userId } }).populate('ppic').exec((err, users) => {
-                        if (err) {
-                            next(err);
-                        } else {
-                            let _pp = '';
-                            upicture.findOne({ usId: req.user._id }).sort({ addDate: -1 }).limit(1).exec(function (err, data) {
-                                if (data != null) {
-                                    _pp = req.user._id + '/' + data.picPath;
-                                } else {
-                                    _pp = '../imgdata/profimg/prof.png';
-                                }
-                                res.render('chatroom.html', { ulist: users, me: req.user, pic: _pp });
-                            });
-                        }
-                    });
-                }
-            });
-        }
+    var frndList = [];
+    room.find({ usersId: { $in: [req.user._id] } }).exec((err, rooms) => {
+        rooms.forEach(element => {
+            if (element.usersId[0].toString() == req.user._id) {
+                frndList.push(element.usersId[1]);
+            } else {
+                frndList.push(element.usersId[0]);
+            }
+        });
+        //
+        User.find({ _id: { $in: frndList } }).populate('ppic').exec((err, users) => {
+            if (err) {
+                next(err);
+            } else {
+                let _pp = '';
+                upicture.findOne({ usId: req.user._id }).sort({ addDate: -1 }).limit(1).exec(function (err, data) {
+                    if (data != null) {
+                        _pp = req.user._id + '/' + data.picPath;
+                    } else {
+                        _pp = '../imgdata/profimg/prof.png';
+                    }
+                    res.render('chatroom.html', { ulist: users, me: req.user, pic: _pp });
+                });
+            }
+        });
+
     });
 });
 //
