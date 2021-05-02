@@ -62,6 +62,13 @@ router.get('/chatroom', isLoggedIn, function (req, res, next) {
 
     });
 });
+
+router.get("/usrfind/:fkey",isLoggedIn, function (req, res) {
+    console.log(req.params.fkey);
+    res.end("from server - "+req.params.fkey);      
+    
+});
+
 //
 router.post("/upload", isLoggedIn, function (req, res) {
     upload(req, res, function (err) {

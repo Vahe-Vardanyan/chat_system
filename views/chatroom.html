@@ -23,37 +23,29 @@
                         </div>
                         <div class="card-header ">
                             <div class="input-group">
-                                <input type="text" placeholder="Search..." name="" class="form-control search">
+                                <input id="userfind" type="text" placeholder="Search..." name="" class="form-control search" >
                                 <div class="input-group-prepend">
                                     <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class=""> 
+                         
+                        <div id="finduser" style="display: block; background-color: rgb(248, 196, 99);"> 
                             <ui class="contacts">
-                                <% ulist.forEach(function(user){ %>
-                                    <li class="frinfo">
-                                        <div class="d-flex bd-highlight line" data-ustat="">
-                                            <div class="img_cont">
-                                                <% var pimg='../imgdata/profimg/prof.png' %>
-                                                <% if(user.ppic!=null){ %>
-                                                <% pimg="../imgdata/"+ user._id + "/" + user.ppic.picPath %>
-                                                <% } %>
-                                                <img src="<%= pimg %>" class="rounded-circle user_img" data-userid="<%= user._id %>">
-                                                <span class="online_icon"></span>
-                                            </div>
+                                
+                                    <!-- <li class="frinfo">
+                                        <div class="d-flex bd-highlight line" data-ustat="" data-userid="">
+                                            
                                             <div class="user_info ">
-                                                <span><%= user.local.name %> <%= user.local.lastname %></span>
+                                                <span>text</span>
 
                                             </div>
                                         </div>
-                                    </li>
-
-                                    <% }); %>
+                                    </li> -->
                             </ui>
                         </div> 
-                        <div class="card-footer"></div>
+                        <!-- <div class="card-footer"></div> -->
                     </div>
                 </div>  
                 
