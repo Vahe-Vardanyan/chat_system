@@ -1,5 +1,4 @@
-
-
+//
 var me = '';
 var to_uid = '';
 var socket;
@@ -11,7 +10,7 @@ var mto = {
 var last20 = {
     frid: ''
 };
-
+let pop = "";
 let userarr = [{
     name: "hjjh",
     lname: "dsfd",
@@ -24,10 +23,6 @@ let userarr = [{
 }
 ];
 
-
-//id,name, sername,profpic
-//
-// var msgMap = Map();
 //
 $(document).ready(function () {
     me = $('.user_info').data('me');
@@ -48,16 +43,32 @@ $(document).ready(function () {
         let message = event.data;
         alert(message);
     }
-    //
-    $('#action_menu_btn').click(function () {
-        $('.action_menu').toggle();
-    });
 });
+//
+$('#action_menu_btn').click(function () {
+    $('.action_menu').toggle();
+});
+//
 $("#userfind").focus(() => {
+    $('#chatuser').css('display', 'none');
+    $('#finduser').css('display', 'block');
     for (let i = 0; i < userarr.length; i++) {
         fndduser(userarr[i]);
     }
 });
+
+$("#userfind").focusout(() => {
+    $('#chatuser').css('display', 'block');
+    $('#finduser').css('display', 'none');
+    //$("body").children("a:first").remove();
+    //console.log($(".contacts")[1].children);//.children().remove();
+    /*    $(".contacts")[1].children.remove();*/
+    for (let d = 0; d < $(".contacts")[1].children.length + 1; d++) {
+        $(".contacts")[1].children[d].remove();
+        console.log(d);
+    }
+});
+
 function fndduser(_fu) {
     var fuspan = document.createElement("span");
     fuspan.innerHTML = _fu.name + " " + _fu.lname;
@@ -66,6 +77,7 @@ function fndduser(_fu) {
     fudiv.appendChild(fuspan);
     var fudiv1 = document.createElement("div");
     fudiv1.classList.add("d-flex", "bd-highlight", "line");
+    fudiv1.setAttribute("onclick", "selectforchat('" + _fu.uid + "')")
     fudiv1.setAttribute("data-ustat", "");
     fudiv1.setAttribute("data-userid", _fu.uid);
     fudiv1.appendChild(fudiv);
@@ -73,12 +85,10 @@ function fndduser(_fu) {
     fuli.classList.add("frinfo");
     fuli.appendChild(fudiv1);
     var fuul = document.getElementsByClassName("contacts");
-    fuul[0].appendChild(fuli);
+    fuul[1].appendChild(fuli);
 }
 
-
-
-let pop = "";
+//
 $("#userfind").on('keyup', (e) => {
     $("#userfind").prop('disabled', true);
     e.stopPropagation();
@@ -92,34 +102,22 @@ $("#userfind").on('keyup', (e) => {
     $.ajax({
         method: 'GET',
         url: '/users/usrfind/' + pop
-        // data: { me: me, to: to_uid }
     }).done((msg) => {
-        // let rid = JSON.parse(msg);
-        // msgView(rid.r);
-        // $(this).data('ustat', rid.r);
         $("#userfind").prop('disabled', false);
         $("#userfind").focus();
         console.log(msg);
     }).fail((jqXHR, status) => {
         console.log("ajax fail");
     });
-
 });
 //
-$('.line').click(function (ev) {
-    to_uid = $(this).data('userid');
-    // to_uid = $(this).children().find('img').data('userid');
-    $('iframe').attr('src', "/chat/msgviewer/" + to_uid);
-    // get my missed msgs
-    //last20.frid = to_uid;
-    //socket.send(JSON.stringify(last20.frid));
-    //
+
+function selectforchat(suid) {
+    $('iframe').attr('src', "/chat/msgviewer/" + suid);
     $('.d-flex').removeClass('active');
     $(this).addClass('active');
     $('.bottom-content').css("display", "block");
-
-    // alert(me+" "+to_uid )
-});
+}
 
 // send message from the form
 function msgSend() {
@@ -140,10 +138,8 @@ function msgSend() {
     } else {
 
     }
-
-    // return false;
 };
-
+//
 function msgView(rum) {
     let outgoingMessage = document.getElementsByName('message')[0].value;
     mto.tid.usid = rum;

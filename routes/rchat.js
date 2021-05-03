@@ -38,7 +38,7 @@ router.get('/', isLoggedIn, function (req, res) {
     res.render('chatroom.html', { user: req.user.local });
 });
 
-router.get('/msgviewer/:uid', isLoggedIn, function (req, res) {
+router.get('/msgviewer/:uid', isLoggedIn, function (req, res, next) {
     User.findById(req.params.uid).populate('ppic').exec( (err, users) => {
         if (err) {
             next(err);

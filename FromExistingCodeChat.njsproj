@@ -18,16 +18,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Content Include="models\friendlist.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="models\groupmsg.js">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="models\msggroup.js" />
     <Content Include="models\proflastpic.js" />
-    <Content Include="models\usergroup.js">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="models\room.js" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />

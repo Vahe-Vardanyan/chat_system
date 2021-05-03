@@ -8,61 +8,68 @@
     </head>
 
     <body>
-        <div class=" d-flex content" >
+        <div class=" d-flex content">
             <!-- <div  class="row "> -->
-                <div class="left_content">
-                    <div class="">
-                        <div class=" d-flex container whodiv">
-                            <div class="img_cont">
-                                <img  src="../imgdata/<%= pic %>" class="rounded-circle user_img">
-                                <span class="online_icon"></span>
-                            </div>
-                            <div class="user_info" data-me="<%= me._id %>" >
-                                <span><%= me.local.name %> <%= me.local.lastname %></span>
-                            </div>
+            <div class="left_content">
+                <div class="">
+                    <div class=" d-flex container whodiv">
+                        <div class="img_cont">
+                            <img src="../imgdata/<%= pic %>" class="rounded-circle user_img">
+                            <span class="online_icon"></span>
                         </div>
-                        <div class="card-header ">
-                            <div class="input-group">
-                                <input id="userfind" type="text" placeholder="Search..." name="" class="form-control search" >
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
-                                </div>
-                            </div>
+                        <div class="user_info" data-me="<%= me._id %>">
+                            <span><%= me.local.name %> <%= me.local.lastname %></span>
                         </div>
-                        
-                         
-                        <div id="finduser" style="display: block; background-color: rgb(248, 196, 99);"> 
-                            <ui class="contacts">
-                                
-                                    <!-- <li class="frinfo">
-                                        <div class="d-flex bd-highlight line" data-ustat="" data-userid="">
-                                            
-                                            <div class="user_info ">
-                                                <span>text</span>
-
-                                            </div>
-                                        </div>
-                                    </li> -->
-                            </ui>
-                        </div> 
-                        <!-- <div class="card-footer"></div> -->
                     </div>
-                </div>  
-                
-                
-                <div class="content_right">
-                    <iframe id="msgframe" class="iframe embed-responsive-item"  src="/chat/welcomechat" scrolling="no" ></iframe>
-                    <div class="bottom-content">  
-                            <div class="d-flex">
-                               <textarea class="msgtype " name="message" rows="2"  style="max-width: 100%;" autofocus></textarea>
-                               <button class="sendbutton" onclick="msgSend()" >Send</button>
-                             </div>
+                    <div class="card-header ">
+                        <div class="input-group">
+                            <input id="userfind" type="text" placeholder="Search..." name="" class="form-control search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="chatuser" style="display: block; background-color: rgb(248, 196, 99);">
+                        <ul class="contacts">
+                            <% ulist.forEach(function(user){ %>
+                            <li class="frinfo">
+                                <div class="d-flex bd-highlight line" onclick="selectforchat('<%= user.local.name %>')" data-ustat="" data-userid="<%= user._id %>">
+                                    <div class="img_cont">
+                                        <% var pimg='../imgdata/profimg/prof.png' %>
+                                        <% if(user.ppic!=null){ %>
+                                        <% pimg="../imgdata/"+ user._id + "/" + user.ppic.picPath %>
+                                        <% } %>
+                                        <img src="<%= pimg %>" class="rounded-circle user_img">
+                                        <span class="online_icon"></span>
+                                    </div>
+                                    <div class="user_info ">
+                                        <span><%= user.local.name %> <%= user.local.lastname %></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+
+                    <div id="finduser" style="display: none; background-color: rgb(248, 196, 99);">
+                        <ul class="contacts">
+                        </ul>
+                    </div>
+                    <!-- <div class="card-footer"></div> -->
+                </div>
+            </div>
+
+            <div class="content_right">
+                <iframe id="msgframe" class="iframe embed-responsive-item" src="/chat/welcomechat" scrolling="no"></iframe>
+                <div class="bottom-content">
+                    <div class="d-flex">
+                        <textarea class="msgtype " name="message" rows="2" style="max-width: 100%;" autofocus></textarea>
+                        <button class="sendbutton" onclick="msgSend()">Send</button>
                     </div>
                 </div>
+            </div>
             <!-- </div> -->
         </div>
-
-        
     </body>
-
     </html>

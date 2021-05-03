@@ -44,12 +44,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/chat', rchat);
 
-app.use(function(req, res, next) {
-    var err = new Error('Page Not Found');
-    err.status = 404;
-    next(err);
-});
-
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -57,16 +51,9 @@ if (app.get('env') === 'development') {
             message: err.message,
             status: err.status,
         });
-    });
+        next();
+    }); 
 }
-
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {},
-    });
-});
 
 var port = process.env.PORT || 3000;
 app.listen(port);
