@@ -34,17 +34,17 @@
                         <ul class="contacts">
                             <% ulist.forEach(function(user){ %>
                             <li class="frinfo">
-                                <div class="d-flex bd-highlight line" onclick="selectforchat('<%= user.local.name %>')" data-ustat="" data-userid="<%= user._id %>">
+                                <div class="d-flex bd-highlight line" onclick="selectforchat('<%= user.frndid %>')" data-ustat="<%= user.roomid %>" data-userid="<%= user.frndid %>">
                                     <div class="img_cont">
                                         <% var pimg='../imgdata/profimg/prof.png' %>
-                                        <% if(user.ppic!=null){ %>
-                                        <% pimg="../imgdata/"+ user._id + "/" + user.ppic.picPath %>
+                                        <% if(user.pic!=null){ %>
+                                        <% pimg="../imgdata/"+ user.frndid + "/" + user.pic %>
                                         <% } %>
                                         <img src="<%= pimg %>" class="rounded-circle user_img">
                                         <span class="online_icon"></span>
                                     </div>
                                     <div class="user_info ">
-                                        <span><%= user.local.name %> <%= user.local.lastname %></span>
+                                        <span><%= user.name %> <%= user.lastname %></span>
                                     </div>
                                 </div>
                             </li>
@@ -56,7 +56,7 @@
                         <ul class="contacts">
                         </ul>
                     </div>
-                    <!-- <div class="card-footer"></div> -->
+                    <div class="card-footer"></div>
                 </div>
             </div>
 

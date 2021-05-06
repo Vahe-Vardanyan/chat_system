@@ -4,11 +4,6 @@ const Schema = mongoose.Schema;
 
 
 var userSchema = Schema({
-    // _id: Schema.Types.ObjectId,
-    // mygop:[{ 
-    //     type:Schema.Types.ObjectId,
-    //     ref:'PairOrGroup'
-    //  }],
      ppic:{ 
         type:Schema.Types.ObjectId,
         ref:'ProfPicure'

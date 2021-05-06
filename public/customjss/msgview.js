@@ -22,7 +22,7 @@ let userarr = [{
     uid: "id2"
 }
 ];
-
+var contact = null;
 //
 $(document).ready(function () {
     me = $('.user_info').data('me');
@@ -43,6 +43,8 @@ $(document).ready(function () {
         let message = event.data;
         alert(message);
     }
+
+    contact = $(".contacts")[1];
 });
 //
 $('#action_menu_btn').click(function () {
@@ -52,20 +54,18 @@ $('#action_menu_btn').click(function () {
 $("#userfind").focus(() => {
     $('#chatuser').css('display', 'none');
     $('#finduser').css('display', 'block');
-    for (let i = 0; i < userarr.length; i++) {
-        fndduser(userarr[i]);
-    }
+    // for (let i = 0; i < userarr.length; i++) {
+    //     fndduser(userarr[i]);
+    // }
 });
 
 $("#userfind").focusout(() => {
+    let pop = $("#userfind").val();
+    if (pop != "") return;
     $('#chatuser').css('display', 'block');
     $('#finduser').css('display', 'none');
-    //$("body").children("a:first").remove();
-    //console.log($(".contacts")[1].children);//.children().remove();
-    /*    $(".contacts")[1].children.remove();*/
-    for (let d = 0; d < $(".contacts")[1].children.length + 1; d++) {
-        $(".contacts")[1].children[d].remove();
-        console.log(d);
+    while (contact.firstChild) {
+        contact.removeChild(contact.lastChild);
     }
 });
 
@@ -77,9 +77,9 @@ function fndduser(_fu) {
     fudiv.appendChild(fuspan);
     var fudiv1 = document.createElement("div");
     fudiv1.classList.add("d-flex", "bd-highlight", "line");
-    fudiv1.setAttribute("onclick", "selectforchat('" + _fu.uid + "')")
+    fudiv1.setAttribute("onclick", "selectforchat('" + _fu.id + "')")
     fudiv1.setAttribute("data-ustat", "");
-    fudiv1.setAttribute("data-userid", _fu.uid);
+    fudiv1.setAttribute("data-userid", _fu.id);
     fudiv1.appendChild(fudiv);
     var fuli = document.createElement("li");
     fuli.classList.add("frinfo");
@@ -90,30 +90,39 @@ function fndduser(_fu) {
 
 //
 $("#userfind").on('keyup', (e) => {
-    $("#userfind").prop('disabled', true);
+    $("#userfind").prop('disabled', false);
     e.stopPropagation();
     pop = $("#userfind").val();
     console.log(pop);//aystex petq e lini ajax vor@ petq e ka
+    while (contact.firstChild) {
+        contact.removeChild(contact.lastChild);
+    }
     if (pop == "") {
         $("#userfind").prop('disabled', false);
         $("#userfind").focus();
+
         return;
     }
     $.ajax({
         method: 'GET',
         url: '/users/usrfind/' + pop
     }).done((msg) => {
-        $("#userfind").prop('disabled', false);
+        // $("#userfind").prop('disabled', false);
+        let fdus = JSON.parse(msg);
+        fdus.forEach(element => {
+            fndduser(element);
+        });
         $("#userfind").focus();
-        console.log(msg);
+        console.log(fdus);
     }).fail((jqXHR, status) => {
         console.log("ajax fail");
     });
 });
 //
 
-function selectforchat(suid) {
-    $('iframe').attr('src', "/chat/msgviewer/" + suid);
+function selectforchat(usid) {
+    to_uid = usid;
+    $('iframe').attr('src', "/chat/msgviewer/" + usid);
     $('.d-flex').removeClass('active');
     $(this).addClass('active');
     $('.bottom-content').css("display", "block");
@@ -124,6 +133,7 @@ function msgSend() {
     let ustat = $(this).data('ustat');
     if (ustat == undefined) {
         //ajax call, create room
+        console.log(to_uid);
         $.ajax({
             method: 'POST',
             url: '/chat/roomp2p',

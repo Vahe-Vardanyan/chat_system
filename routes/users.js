@@ -4,6 +4,8 @@ var User = require('../models/user');
 var multer = require('multer');
 var upicture = require('../models/proflastpic');
 var room = require('../models/room');
+const { json } = require('body-parser');
+const { Error } = require('mongoose');
 var router = express.Router();
 
 var dir = './public/imgdata/';
@@ -33,40 +35,72 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 //
-router.get('/chatroom', isLoggedIn, function (req, res, next) {
+router.get('/chatroom', isLoggedIn, async function (req, res) {
     var frndList = [];
-    room.find({ usersId: { $in: [req.user._id] } }).exec((err, rooms) => {
-        rooms.forEach(element => {
+    var frndObject = null;
+    let _pp = '';
+    let cids = [];
+    try {
+        var x = await room.find({ usersId: { $in: [req.user._id] } }).exec();
+
+        x.forEach(element => {
             if (element.usersId[0].toString() == req.user._id) {
-                frndList.push(element.usersId[1]);
+                cids.push(element.usersId[1]);
             } else {
-                frndList.push(element.usersId[0]);
+                cids.push(element.usersId[0]);
             }
-        });
-        //
-        User.find({ _id: { $in: frndList } }).populate('ppic').exec((err, users) => {
-            if (err) {
-                next(err);
-            } else {
-                let _pp = '';
-                upicture.findOne({ usId: req.user._id }).sort({ addDate: -1 }).limit(1).exec(function (err, data) {
-                    if (data != null) {
-                        _pp = req.user._id + '/' + data.picPath;
-                    } else {
-                        _pp = '../imgdata/profimg/prof.png';
-                    }
-                    res.render('chatroom.html', { ulist: users, me: req.user, pic: _pp });
-                });
+        });//for
+
+        cids.forEach(async cid => {
+            var z = await User.findById(cid).populate('ppic').exec();
+            if (z != null) {
+                frndObject = null;
+                frndObject = {
+                    name: z.local.name,
+                    fname: z.local.lastname,
+                    frndid: z._id,
+                    roomid: cid._id,
+                    pic: z.ppic == null ? z.ppic : z.ppic.picPath
+                };
+                frndList.push(frndObject);
             }
         });
 
-    });
+        var y = await upicture.findOne({ usId: req.user._id }).sort({ addDate: -1 }).limit(1).exec();
+        if (y != null) {
+            _pp = req.user._id + '/' + y.picPath;
+        } else {
+            _pp = '../imgdata/profimg/prof.png';
+        }
+        res.render('chatroom.html', { ulist: frndList, me: req.user, pic: _pp });
+    } catch (ex) {
+        res.end(ex.message);
+    }
 });
 
-router.get("/usrfind/:fkey",isLoggedIn, function (req, res) {
+router.get("/usrfind/:fkey", isLoggedIn, function (req, res, next) {
     console.log(req.params.fkey);
-    res.end("from server - "+req.params.fkey);      
-    
+    let abc = req.params.fkey;
+    var reg = new RegExp(abc, 'i');
+    User.find({ 'local.name': reg }).exec(function (err, result) {
+        if (err) {
+            next(err);
+        } else {
+            let _fus = [];
+            console.log(result);
+            if (result.length == 0) {
+                res.end(JSON.stringify([]));
+            }
+            result.forEach((v, i, a) => {
+                _fus.push({
+                    name: v.local.name,
+                    lname: v.local.lastname,
+                    id: v._id
+                });
+            });
+            res.end(JSON.stringify(_fus));
+        }
+    });
 });
 
 //
