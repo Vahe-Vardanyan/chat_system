@@ -36,7 +36,10 @@
     <Content Include="routes\users.js" />
     <Content Include="views\chatroom.html" />
     <Content Include="views\error.html" />
-    <Content Include="views\index.html" />
+    <Content Include="views\index.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\login.html" />
     <Content Include="views\msgviewer.html" />
     <Content Include="views\mspage.html" />
     <Content Include="views\profile.html" />

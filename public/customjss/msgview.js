@@ -10,18 +10,7 @@ var mto = {
 var last20 = {
     frid: ''
 };
-let pop = "";
-let userarr = [{
-    name: "hjjh",
-    lname: "dsfd",
-    uid: "id1"
-},
-{
-    name: "hjmnjh",
-    lname: "dsnmfd",
-    uid: "id2"
-}
-];
+let ddv = null;
 var contact = null;
 //
 $(document).ready(function () {
@@ -43,7 +32,7 @@ $(document).ready(function () {
         let message = event.data;
         alert(message);
     }
-
+    //
     contact = $(".contacts")[1];
 });
 //
@@ -52,13 +41,19 @@ $('#action_menu_btn').click(function () {
 });
 //
 $("#userfind").focus(() => {
-    $('#chatuser').css('display', 'none');
-    $('#finduser').css('display', 'block');
-    // for (let i = 0; i < userarr.length; i++) {
-    //     fndduser(userarr[i]);
-    // }
+    let pop = $("#userfind").val();
+    if (pop == '') {
+        $('#chatuser').css('display', 'block');
+        $('#finduser').css('display', 'none');
+        while (contact.firstChild) {
+            contact.removeChild(contact.lastChild);
+        }
+    } else {
+        $('#chatuser').css('display', 'none');
+        $('#finduser').css('display', 'block');
+    }
 });
-
+//
 $("#userfind").focusout(() => {
     let pop = $("#userfind").val();
     if (pop != "") return;
@@ -68,8 +63,19 @@ $("#userfind").focusout(() => {
         contact.removeChild(contact.lastChild);
     }
 });
-
-function fndduser(_fu) {
+//
+function fndduser(_fu) {    
+    var fuimg = document.createElement("img");
+    fuimg.setAttribute("src", _fu.prp);
+    fuimg.classList.add("rounded-circle", "user_img");
+    var fuvspn = document.createElement("span");
+    fuvspn.classList.add("online_icon");
+    //
+    var fuipdiv = document.createElement("div");
+    fuipdiv.classList.add("img_cont");
+    fuipdiv.appendChild(fuvspn);
+    fuipdiv.appendChild(fuimg);
+    //
     var fuspan = document.createElement("span");
     fuspan.innerHTML = _fu.name + " " + _fu.lname;
     var fudiv = document.createElement("div");
@@ -77,9 +83,10 @@ function fndduser(_fu) {
     fudiv.appendChild(fuspan);
     var fudiv1 = document.createElement("div");
     fudiv1.classList.add("d-flex", "bd-highlight", "line");
-    fudiv1.setAttribute("onclick", "selectforchat('" + _fu.id + "')")
+    fudiv1.setAttribute("onclick", "selectforchat('" + _fu.id + "')");
     fudiv1.setAttribute("data-ustat", "");
     fudiv1.setAttribute("data-userid", _fu.id);
+    fudiv1.appendChild(fuipdiv);
     fudiv1.appendChild(fudiv);
     var fuli = document.createElement("li");
     fuli.classList.add("frinfo");
@@ -87,53 +94,46 @@ function fndduser(_fu) {
     var fuul = document.getElementsByClassName("contacts");
     fuul[1].appendChild(fuli);
 }
-
 //
 $("#userfind").on('keyup', (e) => {
+    let pop = $("#userfind").val();
     $("#userfind").prop('disabled', false);
-    e.stopPropagation();
-    pop = $("#userfind").val();
-    console.log(pop);//aystex petq e lini ajax vor@ petq e ka
     while (contact.firstChild) {
         contact.removeChild(contact.lastChild);
     }
     if (pop == "") {
-        $("#userfind").prop('disabled', false);
+        $('#finduser').css('display', 'none');
+        $('#chatuser').css('display', 'block');
         $("#userfind").focus();
-
-        return;
-    }
-    $.ajax({
-        method: 'GET',
-        url: '/users/usrfind/' + pop
-    }).done((msg) => {
-        // $("#userfind").prop('disabled', false);
-        let fdus = JSON.parse(msg);
-        fdus.forEach(element => {
-            fndduser(element);
+    } else {
+        $.ajax({
+            method: 'GET',
+            url: '/users/usrfind/' + pop
+        }).done((msg) => {
+            let fdus = JSON.parse(msg);
+            fdus.forEach(element => {
+                fndduser(element);
+            });
+            $("#userfind").focus();
+            console.log(fdus);
+        }).fail((jqXHR, status) => {
+            console.log("ajax fail");
         });
-        $("#userfind").focus();
-        console.log(fdus);
-    }).fail((jqXHR, status) => {
-        console.log("ajax fail");
-    });
+    }
 });
 //
-
 function selectforchat(usid) {
+    ddv = $('*[data-userid="' + usid + '"]');    
     to_uid = usid;
     $('iframe').attr('src', "/chat/msgviewer/" + usid);
     $('.d-flex').removeClass('active');
     $(this).addClass('active');
     $('.bottom-content').css("display", "block");
 }
-
-// send message from the form
+//
 function msgSend() {
-    let ustat = $(this).data('ustat');
-    if (ustat == undefined) {
-        //ajax call, create room
-        console.log(to_uid);
+    console.log(to_uid + '--' + ddv[0].dataset.ustat);
+    if (ddv[0].dataset.ustat == '') {
         $.ajax({
             method: 'POST',
             url: '/chat/roomp2p',
@@ -141,14 +141,15 @@ function msgSend() {
         }).done((msg) => {
             let rid = JSON.parse(msg);
             msgView(rid.r);
-            $(this).data('ustat', rid.r);
+            ddv[0].dataset.ustat = rid.r;
+            // ADD TO FRENDLIST
         }).fail((jqXHR, status) => {
             alert('room is not created');
         });
     } else {
-
+        msgView(ddv[0].dataset.ustat);
     }
-};
+}
 //
 function msgView(rum) {
     let outgoingMessage = document.getElementsByName('message')[0].value;
@@ -175,37 +176,26 @@ function myFunction(msg) {
     var msgtext = document.createElement("div");
     msgtext.classList.add("msg_text");
     msgtext.innerHTML = msg.msgtext;
-
     if (msg.ismy == true) {
-
         dflex.classList.add("d-flex", "justify-content-end", "line");
-
         var mystyleContright = document.createElement("div");
         mystyleContright.classList.add("mystyle", "contright");
-
         mystyleContright.appendChild(msgtext);
         dflex.appendChild(mystyleContright);
     } else {
-
         dflex.classList.add("d-flex", "line");
-
         var mystyleContleft = document.createElement("div");
         mystyleContleft.classList.add("mystyle", "contleft");
-
         var imgcontmsg = document.createElement("div");
         imgcontmsg.classList.add("img_cont_msg");
-
         var imguser = document.createElement("img");
         imguser.src = "/imgdata/profimg/prof.png";
         imguser.style.width = "100%";
         imguser.classList.add("rounded-circle", "user_img_msg");
-
-
         imgcontmsg.appendChild(imguser);
         mystyleContleft.appendChild(msgtext);
         mystyleContleft.appendChild(imgcontmsg);
         dflex.appendChild(mystyleContleft);
-
     }
     let mdiv = document.getElementById('msgframe').contentWindow.document.getElementById('msg');
     if (mdiv != null && mdiv != undefined) {

@@ -3,6 +3,7 @@ var passport = require('passport');
 var router = express.Router();
 var upicture = require('../models/proflastpic');
 var fs = require('fs');
+
 router.get('/', function (req, res, next) {
     res.render('index', { title: 'Express' });
 });
@@ -15,7 +16,7 @@ router.get('/signup', function (req, res) {
     res.render('signup.html', { message: req.flash('signupMessage') });
 });
 
-router.get('/profile', isLoggedIn,async function (req, res) {
+router.get('/profile', isLoggedIn, async function (req, res) {
     // console.log(req.user.ppic.picPath);
     await upicture.findOne({ usId: req.user._id }).sort({ addDate: -1 }).limit(1).exec(function (err, data) {
         if (data) {
