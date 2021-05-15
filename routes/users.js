@@ -41,7 +41,7 @@ router.get('/chatroom', isLoggedIn, async function (req, res) {
     let _pp = '';
     let cids = [];
     try {
-        var x = await room.find({ usersId: { $in: [req.user._id] } }).exec();
+        var x = await room.find({ usersId: { $in: [req.user._id] } }).sort({  _id: -1 }).exec();
         //
         for (let element in x) {
             if (x[element].usersId[0].toString() == req.user._id) {

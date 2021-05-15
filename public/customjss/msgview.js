@@ -12,6 +12,12 @@ var last20 = {
 };
 let ddv = null;
 var contact = null;
+var selectedUser = {
+    name: '',
+    lname: '',
+    prp: '',
+    id: ''
+};
 //
 $(document).ready(function () {
     me = $('.user_info').data('me');
@@ -34,6 +40,9 @@ $(document).ready(function () {
     }
     //
     contact = $(".contacts")[1];
+
+    //   let contact0 = $(".contacts")[0];
+    // //   console.log(contact0.innerHTML);
 });
 //
 $('#action_menu_btn').click(function () {
@@ -64,7 +73,7 @@ $("#userfind").focusout(() => {
     }
 });
 //
-function fndduser(_fu) {    
+function fndduser(_fu, _section, _rid) {
     var fuimg = document.createElement("img");
     fuimg.setAttribute("src", _fu.prp);
     fuimg.classList.add("rounded-circle", "user_img");
@@ -84,7 +93,7 @@ function fndduser(_fu) {
     var fudiv1 = document.createElement("div");
     fudiv1.classList.add("d-flex", "bd-highlight", "line");
     fudiv1.setAttribute("onclick", "selectforchat('" + _fu.id + "')");
-    fudiv1.setAttribute("data-ustat", "");
+    fudiv1.setAttribute("data-ustat", _rid);
     fudiv1.setAttribute("data-userid", _fu.id);
     fudiv1.appendChild(fuipdiv);
     fudiv1.appendChild(fudiv);
@@ -92,7 +101,7 @@ function fndduser(_fu) {
     fuli.classList.add("frinfo");
     fuli.appendChild(fudiv1);
     var fuul = document.getElementsByClassName("contacts");
-    fuul[1].appendChild(fuli);
+    fuul[_section].insertBefore(fuli,fuul[_section].childNodes[0]);
 }
 //
 $("#userfind").on('keyup', (e) => {
@@ -112,10 +121,10 @@ $("#userfind").on('keyup', (e) => {
         }).done((msg) => {
             let fdus = JSON.parse(msg);
             fdus.forEach(element => {
-                fndduser(element);
+                fndduser(element, 1, '');
             });
             $("#userfind").focus();
-            console.log(fdus);
+            // console.log(fdus);
         }).fail((jqXHR, status) => {
             console.log("ajax fail");
         });
@@ -123,7 +132,14 @@ $("#userfind").on('keyup', (e) => {
 });
 //
 function selectforchat(usid) {
-    ddv = $('*[data-userid="' + usid + '"]');    
+    ddv = $('*[data-userid="' + usid + '"]');
+    let fullname = ddv.children()[1].innerText;
+    console.log(ddv.children()[1].innerText);
+    selectedUser.name = ddv.children()[1].innerText.split(' ')[0];
+    selectedUser.lname = ddv.children()[1].innerText.split(' ')[1];
+    selectedUser.id = usid;
+    selectedUser.prp = ddv.children()[0].children[1].attributes[0].value;
+    console.log(selectedUser);
     to_uid = usid;
     $('iframe').attr('src', "/chat/msgviewer/" + usid);
     $('.d-flex').removeClass('active');
@@ -131,7 +147,10 @@ function selectforchat(usid) {
     $('.bottom-content').css("display", "block");
 }
 //
+
+
 function msgSend() {
+
     console.log(to_uid + '--' + ddv[0].dataset.ustat);
     if (ddv[0].dataset.ustat == '') {
         $.ajax({
@@ -142,13 +161,20 @@ function msgSend() {
             let rid = JSON.parse(msg);
             msgView(rid.r);
             ddv[0].dataset.ustat = rid.r;
+            console.log(ddv[0].dataset.ustat);
+
             // ADD TO FRENDLIST
+            fndduser(selectedUser, 0, rid.r);
+
         }).fail((jqXHR, status) => {
             alert('room is not created');
         });
     } else {
         msgView(ddv[0].dataset.ustat);
     }
+    // $("input:text").val("");
+    // $("#userfind").focusout();
+
 }
 //
 function msgView(rum) {
