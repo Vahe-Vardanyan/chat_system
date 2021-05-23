@@ -1,15 +1,21 @@
 <% include partials/head.html %>
 <head>
 	<link rel="stylesheet" href="../../stylesheets/msgviewer.css">
-    <!--<script type="text/javascript" src="/regjs/chatusers.js" async></script>-->
-    <!--<script type="text/javascript" src="/customjss/msgview.js" defer></script>-->
+    <!-- <script type="text/javascript" src="/regjs/chatusers.js" async></script> -->
+    <script type="text/javascript" src="/customjss/framemsg.js" defer></script>
 </head>
 <body >	
     <div class="allcontent" >          
             <div class="d-flex card-header header_div">
                 <div class="d-flex bd-highlight ">
                     <div class="img_cont">
-                        <img id="msguserpic" src="<%= ppat %>" class="rounded-circle user_img">
+                        <!-- ../imgdata/608c41c049c07a269cc446c4/imgUploader_1619804657335_IMG_20180610_161528.jpg
+                        ../imgdata/608c41c049c07a269cc446c4/imgUploader_1619804657335_IMG_20180610_161528.jpg -->
+                        <% var pimg='/imgdata/profimg/prof.png' %>
+                                        <% if(user.ppic!=null){ %>
+                                            <% pimg="/imgdata/"+ user._id + "/" + user.ppic.picPath %>
+                                        <% } %>
+                        <img id="msguserpic" src="<%= pimg %>" class="rounded-circle user_img">
                         <span class="online_icon"></span>
                     </div>
                     <div class="user_info">
@@ -33,8 +39,9 @@
                   </div>
                </div>   
             </div>       
-            <div id="msg" >
+            <div id="msg" data-msgs="<%= user._id %>" data-msgr="<%= rid %>" >
             </div>      
     </div>   
+    
 </body>
 </html>

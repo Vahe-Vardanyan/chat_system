@@ -32,8 +32,8 @@ module.exports = function (app) {
                 var msg = JSON.parse(message);
                 //
                 var dbmsg = new Msgs();
-                dbmsg.whoby = usid.me;
-                dbmsg.roomid = msg.tid.usid;
+                dbmsg.who = usid.me;
+                dbmsg.roomid = msg.tid.rmid;
                 dbmsg.umsg = msg.text;
                 //
                 dbmsg.save(function (err) {
@@ -41,6 +41,9 @@ module.exports = function (app) {
                         throw err;
                     else {
                         if (umap.get(msg.tid.usid) != null) {
+                            console.log( msg.text);
+                            console.log(umap.get(msg.tid.usid));
+
                             umap.get(msg.tid.usid).send(msg.text);
                         }
                     }

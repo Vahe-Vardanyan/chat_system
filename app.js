@@ -14,7 +14,7 @@ var users = require('./routes/users');
 var rchat = require('./routes/rchat');
 
 var configDB = require('./config/database.js');
-mongoose.connect(configDB.url, { useCreateIndex: true, useNewUrlParser: true,useFindAndModify:false}).then(
+mongoose.connect(configDB.url, { useCreateIndex: true, useNewUrlParser: true,useFindAndModify:false,useUnifiedTopology:true}).then(
     () => { console.log('DB connected!') },
     err => { console.error(err) }
 );

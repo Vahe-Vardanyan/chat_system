@@ -4,7 +4,7 @@ var to_uid = '';
 var socket;
 //
 var mto = {
-    tid: { usid: '' },
+    tid: { usid: '', rmid:'' },
     text: ''
 };
 var last20 = {
@@ -179,7 +179,8 @@ function msgSend() {
 //
 function msgView(rum) {
     let outgoingMessage = document.getElementsByName('message')[0].value;
-    mto.tid.usid = rum;
+    mto.tid.usid = to_uid; 
+    mto.tid.rmid = rum;
     mto.text = outgoingMessage;
     console.log('outgoingMessage ' + outgoingMessage);
     socket.send(JSON.stringify(mto));
